@@ -73,12 +73,13 @@ table {
     line-height: 32px;
     display: block;
 }
-#header span {
-    padding: 0 0 0 8px;
+#header img {
+    padding: 0 8px 0 0;
 }
-.fa-folder {
+.fa-folder, .fa-arrow-circle-left {
     vertical-align: middle;
     font-size: 28px;
+    padding: 0 10px 0 0;
 }
 .fa-folder::before, .fa-cloud-download::before {
     color: gray;
@@ -132,11 +133,11 @@ td {
 .col3 {
     width: 10%;
 }
-#header button {
+#header .download {
     float: right;
     margin: 0 25px 0 0;
 }
-button {
+.download {
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
     box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -147,24 +148,47 @@ button {
     text-indent:0;
     border:1px solid #dcdcdc;
     display:inline-block;
-    color:#666666;
+    color:#666666 !important;
     height: 32px;
-    line-height: 28px;
+    line-height: 32px;
     width: 130px;
     text-decoration:none;
     text-align:center;
-    /*text-shadow:1px 1px 0px #ffffff;*/
+    font-size: 13px;
 }
-button:hover {
+.download:hover {
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
     background:-moz-linear-gradient(center top, #e9e9e9 5%, #f9f9f9 100%);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9');
     background-color:#e9e9e9;
+    border:1px solid #dcdcdc;
 }
-button:active {
+.download:active {
     position:relative;
     top:1px;
 }
-button span {
+.download span {
     text-shadow:1px 1px 0px #ffffff;
+    padding: 0 0 0 10px;
+}
+a:link, a:visited { 
+    color: #f07900;
+    text-decoration: none;
+}
+a:hover { 
+  border-bottom: 1px dashed #f07900;
+  display: inline;
+}
+#back {
+    color: gray;
+    text-shadow:1px 1px 0px #ffffff;
+}
+#back:hover {
+    color: gray;
+    border-bottom: none;
+    display: inline;
+}
+#back:active {
+    position:relative;
+    top:1px;
 }
