@@ -51,7 +51,7 @@ class Group {
     <td>
         <img src="{$this->image}">
     </td>
-    <td><a href="?group={$this->name}">{$this->name}</a></td>
+    <td><a href="?group={$this->name}">{$this->name}</a>  <a id="dl" href="?download={$this->name}"><i class="fa fa-cloud-download"></i></a> </td>
     <td>{$this->len}</td>
     <td>{$this->size}</td>
     <td>{$this->modTime}</td>
@@ -173,12 +173,16 @@ if (isset($_GET["group"]) && trim($_GET["group"]) !== "") {
 }
 
 if (isset($_GET["download"])) {
-    if ($showGroup === true && $_GET["download"] === "group") {
-        ZipFiles($group->files, $group->name . ".zip");
-    }
 
     if ($_GET["download"] === "all") {
         ZipFiles($clean_files, "shared_assets.zip");
+    } else {
+        foreach ($groups as $key => $value) {
+            if($_GET["download"] === $value->name)
+            {
+                ZipFiles($value->files, $value->name . ".zip");
+            }
+        }
     }
 }
 
@@ -197,6 +201,25 @@ if (isset($_GET["download"])) {
     <link rel="stylesheet" href="style.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            $('.search-box').on('input', function() {
+                _needle = $(this).val();
+
+                $('table tr td:nth-child(2)').each(function() {
+                    _haystack = $(this).text();
+
+                    if(_haystack.indexOf(_needle) >= 0) {
+                        $(this).parent().show();
+                    } else {
+                        $(this).parent().hide();
+                    }
+                });
+            })
+        });
+    </script>
 </head>
 
 <body>
@@ -207,13 +230,13 @@ if (isset($_GET["download"])) {
         <i class="fa fa-folder"></i> 
         <span>Shared Assets</span>
         <a href="?download=all"class="download"><i class="fa fa-cloud-download"></i><span>Download All</span></a>
+        <input type="search" incremental="incremental" class="search-box" placeholder="filter" />
         <?php endif ?>
 
         <?php if ($showGroup == true): ?>
         <a id= "back" href="?"><i class="fa fa-arrow-circle-left"></i></a>
-        <img src="<?php echo $group->image ?>"/>
         <span><?php echo $group->name ?></span>
-        <a href="?group=<?php echo $group->name ?>&download=group" class="download"><i class="fa fa-cloud-download"></i><span>Download All</span></a>
+        <a href="?download=<?php echo $group->name ?>" class="download"><i class="fa fa-cloud-download"></i><span>Download All</span></a>
         <?php endif ?>
         
     </div>

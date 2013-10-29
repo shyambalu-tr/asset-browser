@@ -55,7 +55,6 @@ table {
     font-weight: 400;
 }
 #header {
-    width: 100%;
     padding: 15px 10px 10px 10px;
     background: rgb(247, 247, 247);
     background: -moz-linear-gradient(top, rgba(247, 247, 247, 1) 0%, rgba(244, 244, 244, 1) 100%);
@@ -135,7 +134,6 @@ td {
 }
 #header .download {
     float: right;
-    margin: 0 25px 0 0;
 }
 .download {
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -191,4 +189,13 @@ a:hover {
 #back:active {
     position:relative;
     top:1px;
+}
+
+.search-box {
+    height: 28px;
+    padding: 0 5px 0 5px;
+    margin: 0 5px 0 10px;
+}
+#dl {
+    float: right;
 }
