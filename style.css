@@ -121,12 +121,13 @@ tr:hover {
 td {
     font-size: 13px;
     line-height: 16px;
+    white-space: nowrap;
 }
 .col1 {
     width: 2%;
 }
 .col2 {
-    width: 50%;
+    width: 67%;
 }
 .col3 {
     width: 10%;

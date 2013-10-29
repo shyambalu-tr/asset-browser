@@ -4,14 +4,62 @@ class Group {
 
     var $name;
     var $files;
+    var $size;
+    var $modTime;
+    var $image;
+    var $len;
+
 
     function Group($name, $files)
     {
         $this->name = $name;
         $this->files = $files;
+        $this->len = count($files);
+
+        $tempsize = 0;
+        $tempmodtime = 0;
+        $pattern = "/_n/";
+
+        foreach ($files as $key => $file) {
+            $tempsize += filesize($file);
+            $tempmodtime = filemtime($file) > $tempmodtime ? filemtime($file) : $tempmodtime;
+
+            if (preg_match($pattern, $file)) {
+                $this->image = $file;
+            }
+        }
+
+        $this->size = Group::formatSize($tempsize);
+        $this->modTime = date("d M Y G:i", $tempmodtime);
     }
 
-    
+    function formatSize($size)
+    {
+        $sizes = Array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB');
+        $y     = $sizes[0];
+        for ($i = 1; (($i < count($sizes)) && ($size >= 1024)); $i++) {
+            $size = $size / 1024;
+            $y    = $sizes[$i];
+        }
+        return round($size, 2) . " " . $y;
+    }
+
+    function getHtml()
+    {
+        return <<<EOD
+<tr>
+    <td>
+        <img src="{$this->image}">
+    </td>
+    <td>{$this->name}</td>
+    <td>{$this->len}</td>
+    <td>{$this->size}</td>
+    <td>{$this->modTime}</td>
+</tr>
+
+EOD;
+    }
+
 }
 
 
@@ -21,7 +69,8 @@ $dir     = '.';
 $pattern = "/^[^_]*_[^_]*/";
 
 $files   = scandir($dir);
-$groups  = array();
+$file_groups  = array();
+$groups = array();
 
 foreach ($files as $key => $file) {
     $type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
@@ -33,11 +82,15 @@ foreach ($files as $key => $file) {
         // print_r($matches);
         // echo '<br>';
 
-        $groups[$matches[0]][] = $file;
+        $file_groups[$matches[0]][] = $file;
     }
 }
 
-print_r($groups);
+foreach ($file_groups as $name => $files) {
+    $groups[] = new Group($name, $files);
+}
+
+// print_r($groups);
 
 ?>
 
@@ -75,45 +128,11 @@ print_r($groups);
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <img src="ico_alert_16_n.png" />
-                                    </td>
-                                    <td>ico_alert</td>
-                                    <td>4</td>
-                                    <td>32kb</td>
-                                    <td>18 Sep 2013 15:23</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <img src="ico_alert_16_n.png" />
-                                    </td>
-                                    <td>ico_alert</td>
-                                    <td>4</td>
-                                    <td>32kb</td>
-                                    <td>18 Sep 2013 15:23</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <img src="ico_alert_16_n.png" />
-                                    </td>
-                                    <td>ico_alert</td>
-                                    <td>4</td>
-                                    <td>32kb</td>
-                                    <td>18 Sep 2013 15:23</td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <img src="ico_alert_16_n.png" />
-                                    </td>
-                                    <td>ico_alert</td>
-                                    <td>4</td>
-                                    <td>32kb</td>
-                                    <td>18 Sep 2013 15:23</td>
-                                </tr>
+                                <?php
+                                    foreach ($groups as $key => $group) {
+                                        echo $group->getHtml();
+                                    }
+                                ?>
                             </tbody>
     </table>
 
