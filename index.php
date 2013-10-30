@@ -51,7 +51,7 @@ class Group {
     <td>
         <img src="{$this->image}">
     </td>
-    <td><a href="?group={$this->name}">{$this->name}</a>  <a id="dl" href="?download={$this->name}"><i class="fa fa-cloud-download"></i></a> </td>
+    <td><a href="?group={$this->name}">{$this->name}</a>  <a id="dl" href="?download={$this->name}"><i title="Download" class="fa fa-cloud-download"></i></a> </td>
     <td>{$this->len}</td>
     <td>{$this->size}</td>
     <td>{$this->modTime}</td>
